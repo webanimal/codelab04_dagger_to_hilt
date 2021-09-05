@@ -28,9 +28,10 @@ import androidx.lifecycle.Observer
 import com.example.android.dagger.R
 import com.example.android.dagger.main.MainActivity
 import com.example.android.dagger.registration.RegistrationActivity
-import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     @Inject
@@ -39,10 +40,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val entryPoint = EntryPointAccessors.fromApplication(applicationContext, LoginEntryPoint::class.java)
-        entryPoint.loginComponent().create().inject(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 

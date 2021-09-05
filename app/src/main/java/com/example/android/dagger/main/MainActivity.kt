@@ -21,16 +21,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
+import com.example.android.dagger.di.UserManagerEntryPoint
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.settings.SettingsActivity
+import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    // @Inject annotated fields will be provided by Dagger
     @Inject
     lateinit var mainViewModel: MainViewModel
 
@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Grabs instance of UserManager from the application graph
-        val userManager = (application as MyApplication).appComponent.userManager()
+        val userManagerEntryPoint = EntryPointAccessors.fromApplication(this, UserManagerEntryPoint::class.java)
+        val userManager = userManagerEntryPoint.userManager()
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))

@@ -22,17 +22,21 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.R
-import com.example.android.dagger.di.UserManagerEntryPoint
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.settings.SettingsActivity
-import dagger.hilt.android.EntryPointAccessors
+import com.example.android.dagger.user.UserManager
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
+    
+    @Inject
+    lateinit var userManager: UserManager
 
     /**
      * If the User is not registered, RegistrationActivity will be launched,
@@ -42,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userManagerEntryPoint = EntryPointAccessors.fromApplication(this, UserManagerEntryPoint::class.java)
-        val userManager = userManagerEntryPoint.userManager()
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))
@@ -54,10 +56,6 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             setContentView(R.layout.activity_main)
-
-            // If the MainActivity needs to be displayed, we get the UserComponent from the
-            // application graph and gets this Activity injected
-            userManager.userComponent!!.inject(this)
             setupViews()
         }
     }

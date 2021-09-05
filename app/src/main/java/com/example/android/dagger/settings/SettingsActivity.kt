@@ -21,22 +21,19 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.R
-import com.example.android.dagger.di.UserManagerEntryPoint
 import com.example.android.dagger.login.LoginActivity
-import dagger.hilt.android.EntryPointAccessors
+import com.example.android.dagger.user.UserManager
 import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
 
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
+    
+    @Inject
+    lateinit var userManager: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val userManagerEntryPoint = EntryPointAccessors.fromApplication(this, UserManagerEntryPoint::class.java)
-        val userManager = userManagerEntryPoint.userManager()
-        userManager.userComponent!!.inject(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 

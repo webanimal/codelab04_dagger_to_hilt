@@ -29,7 +29,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val userDataRepository: UserDataRepository) {
 
     val welcomeText: String
-        get() = "Hello ${userDataRepository.username}!"
+        get() = "Hello ${userDataRepository.userName}!"
 
     val notificationsText: String
         get() = "You have ${userDataRepository.unreadNotifications} unread notifications"

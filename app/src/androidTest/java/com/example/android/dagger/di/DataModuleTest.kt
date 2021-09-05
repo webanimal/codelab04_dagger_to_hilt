@@ -16,11 +16,20 @@
 
 package com.example.android.dagger.di
 
-import dagger.Component
-import javax.inject.Singleton
+import com.example.android.dagger.storage.FakeStorage
+import com.example.android.dagger.storage.Storage
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 
-// Replacement for AppComponent in android tests
-@Singleton
-// Includes TestStorageModule that overrides objects provided in StorageModule
-@Component(modules = [TestStorageModule::class, AppSubcomponents::class])
-interface TestAppComponent : AppComponent
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [DataModule::class]
+)
+@Module
+abstract class DataModuleTest {
+
+    @Binds
+    abstract fun provideStorage(storage: FakeStorage): Storage
+}

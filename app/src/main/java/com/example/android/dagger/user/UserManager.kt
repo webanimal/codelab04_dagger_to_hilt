@@ -32,7 +32,7 @@ class UserManager @Inject constructor(
     private val userDataRepository: UserDataRepository
 ) {
 
-    val username: String
+    val userName: String
         get() = storage.getString(REGISTERED_USER)
 
     fun isUserLoggedIn() = !userDataRepository.userName.isNullOrBlank()
@@ -46,7 +46,7 @@ class UserManager @Inject constructor(
     }
 
     fun loginUser(username: String, password: String): Boolean {
-        val registeredUser = this.username
+        val registeredUser = this.userName
         if (registeredUser != username) return false
 
         val registeredPassword = storage.getString("$username$PASSWORD_SUFFIX")

@@ -22,9 +22,16 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.example.android.dagger.main.MainActivity
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class ApplicationTest {
+    
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun runApp() {

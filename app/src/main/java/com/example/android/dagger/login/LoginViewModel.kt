@@ -43,5 +43,5 @@ class LoginViewModel @Inject constructor(private val userManager: UserManager) {
         userManager.unregister()
     }
 
-    fun getUsername(): String = userManager.username
+    fun getUsername(): String = userManager.userName
 }

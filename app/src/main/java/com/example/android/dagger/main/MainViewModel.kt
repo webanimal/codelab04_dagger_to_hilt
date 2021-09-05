@@ -16,7 +16,10 @@
 
 package com.example.android.dagger.main
 
+import androidx.lifecycle.ViewModel
 import com.example.android.dagger.user.UserDataRepository
+import com.example.android.dagger.user.UserManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
@@ -26,11 +29,19 @@ import javax.inject.Inject
  * @Inject tells Dagger how to provide instances of this type. Dagger also knows
  * that UserDataRepository is a dependency.
  */
-class MainViewModel @Inject constructor(private val userDataRepository: UserDataRepository) {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val userDataRepository: UserDataRepository,
+    private val userManager: UserManager
+) : ViewModel() {
 
     val welcomeText: String
-        get() = "Hello ${userDataRepository.userName}!"
+        get() = "Hello ${userManager.userName}!"
 
     val notificationsText: String
         get() = "You have ${userDataRepository.unreadNotifications} unread notifications"
+    
+    fun isUserLoggedIn() = userManager.isUserLoggedIn()
+    
+    fun isUserRegistered() = userManager.isUserRegistered()
 }

@@ -20,23 +20,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.R
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.settings.SettingsActivity
-import com.example.android.dagger.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
-    
-    @Inject
-    lateinit var userManager: UserManager
+    private val mainViewModel: MainViewModel by viewModels()
 
     /**
      * If the User is not registered, RegistrationActivity will be launched,
@@ -46,8 +41,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!userManager.isUserLoggedIn()) {
-            if (!userManager.isUserRegistered()) {
+        if (!mainViewModel.isUserLoggedIn()) {
+            if (!mainViewModel.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))
                 finish()
             } else {
